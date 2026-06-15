@@ -1,0 +1,89 @@
+@baseUrl = http://localhost:8000/api/v1
+@token = paste-token-here
+
+### Register
+POST {{baseUrl}}/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Demo User",
+  "email": "demo@example.com",
+  "password": "password123",
+  "password_confirmation": "password123",
+  "device_name": "bruno-or-vscode-rest-client"
+}
+
+### Login
+POST {{baseUrl}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "demo@example.com",
+  "password": "password123",
+  "device_name": "bruno-or-vscode-rest-client"
+}
+
+### Me
+GET {{baseUrl}}/me
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Add by IMDb ID
+POST {{baseUrl}}/watchlist
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "identifier": "tt3896198",
+  "status": "to_watch",
+  "favorite": true,
+  "notes": "Recommended by a friend"
+}
+
+### Add by title
+POST {{baseUrl}}/watchlist
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "identifier": "Dune",
+  "status": "watching"
+}
+
+### List with filters and pagination
+GET {{baseUrl}}/watchlist?status=to_watch&favorite=1&q=guardians&per_page=10&sort=title&direction=asc
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Show one item
+GET {{baseUrl}}/watchlist/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Update user-specific fields
+PATCH {{baseUrl}}/watchlist/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "watched",
+  "rating": 9,
+  "notes": "Fun, colorful and rewatchable.",
+  "favorite": true,
+  "watched_at": "2026-06-15T18:00:00Z"
+}
+
+### Delete one item
+DELETE {{baseUrl}}/watchlist/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Logout current token
+POST {{baseUrl}}/logout
+Accept: application/json
+Authorization: Bearer {{token}}
