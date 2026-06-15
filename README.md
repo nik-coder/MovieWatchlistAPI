@@ -226,6 +226,52 @@ Covered areas:
 
 Use `api.http` with the VS Code REST Client extension, PhpStorm HTTP Client, Bruno import, or any similar client. Register or login, copy the returned token into the `@token` variable, then run the watchlist requests.
 
+## Quick browser / curl testing
+
+If you are testing from Codespaces or localhost, use these commands from the project root.
+
+### 1. Register a user
+
+```bash
+curl -X POST http://localhost:8000/api/v1/register \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Demo User","email":"demo@example.com","password":"password123","password_confirmation":"password123","device_name":"curl"}'
+```
+
+### 2. Login
+
+```bash
+curl -X POST http://localhost:8000/api/v1/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"demo@example.com","password":"password123","device_name":"curl"}'
+```
+
+### 3. List watchlist items
+
+Replace `<token>` with the token returned from login.
+
+```bash
+curl -X GET 'http://localhost:8000/api/v1/watchlist?status=to_watch&favorite=1&q=guardians&per_page=10&sort=title&direction=asc' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <token>'
+```
+
+### 4. Codespaces public URL example
+
+If you are testing through the forwarded Codespaces URL, replace the host with:
+
+```text
+https://improved-space-palm-tree-ppqq9wp4wgjcv9q-8000.app.github.dev
+```
+
+Example:
+
+```bash
+curl -X GET 'https://improved-space-palm-tree-ppqq9wp4wgjcv9q-8000.app.github.dev/api/v1/watchlist?status=to_watch&favorite=1&q=guardians&per_page=10&sort=title&direction=asc' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer <token>'
+```
+
 ## Decisions and trade-offs
 
 ### What I focused on
